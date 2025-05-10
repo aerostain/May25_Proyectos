@@ -1,0 +1,235 @@
+---
+title: 'Snippets Mysql'
+format: 
+  html:
+    toc: true
+    toc-location: left
+---
+
+## Exploración
+### Acceso
+```sql
+mysql -u tu_usuario -p
+```
+### Bases de Datos y sus Tablas
+```sql
+# Crear
+create database st_090525;
+
+# Eliminar
+drop database st_090525;
+
+# Leer
+show databases;
+use st_2025;
+show tables;
+
+desc mitabla;
+select*from mitabla limit 10;
+select*from mitabla limit 10 offset 25;
+select count(*) mitabla;
+```
+### Permisos y usuarios
+```sql
+# Ver Usuario actual
+select user();
+select current_user();
+
+# Cambiar de usuario
+quit;
+mysql -u tu_usuario -p
+
+# Listar Usuarios y sus privilegios
+show grants;
+SELECT User, Host FROM mysql.user;
+show grants for `posrichi`@`mihost`;
+## mihost es desde donde se conectará: `localhost`, `%` para cualquier ip o `192.168.18.193`.
+
+# Crear usuario y darle privilegios
+CREATE USER 'usuario'@'%' IDENTIFIED BY 'passw';
+
+GRANT lista_de_privilegios ON mistorage.mitabla TO 'usuario'@'%';
+FLUSH PRIVILEGES;
+
+GRANT ALL PRIVILEGES ON *.* TO 'administrador_remoto'@'192.168.1.100';
+FLUSH PRIVILEGES;
+## privilegios: reemplazar por select o todos los demás.
+## mistorage.* o mistorage.mitabla
+## FLUSH PRIVILEGES recargar la tabla de privilegios.
+## SELECT: Permite al usuario leer datos de las tablas.
+## INSERT: Permite al usuario insertar nuevos datos en las tablas.
+## UPDATE: Permite al usuario modificar datos existentes en las tablas.
+## DELETE: Permite al usuario eliminar datos de las tablas.
+## CREATE: Permite al usuario crear nuevas bases de datos o tablas.
+## DROP: Permite al usuario eliminar bases de datos o tablas existentes.
+## ALTER: Permite al usuario modificar la estructura de las tablas.
+## ALL PRIVILEGES: Todos los privilegios posibles al usuario, generalmente solo se asigna a administradores.
+
+# Borrar usuario
+DROP USER 'nombre_de_usuario'@'host';
+
+# Revocar privilegios
+REVOKE lista_de_privilegios ON objeto FROM 'usuario'@'host';
+FLUSH PRIVILEGES;
+
+# Otorgar privilegios adicionales
+GRANT lista_de_privilegios ON objeto TO 'usuario'@'localhost';
+FLUSH PRIVILEGES;
+
+```
+## CRUD
+
+### Crear
+```sql
+# Crear Tabla
+create table clientes(
+  id int primary key auto_increment,
+  nombre varchar(250),
+  fec_crea timestamp default current_timestamp()
+) comment 'Tabla de Clientes';
+
+# Crear Tabla a partir de otra
+create table espejo as 
+select id, fec_crea from clientes;
+
+desc clientes;
+
+# Crear Registros
+insert into clientes values(null,'Adriana',default);
+insert into clientes(nombre) values('Adriana');
+```
+### Leer
+```sql
+select*from clientes;
+
+# orden
+select*from clientes order by id asc;
+
+# filtro
+select*from clientes where id=1;
+select*from clientes where id is not null;
+select*from clientes where not id=1;
+select*from clientes where nombre like '%s%' or nombre like '%a';
+
+# distintos
+select distinct fec_crea from clientes;
+select count(distinct fec_crea) from clientes;
+
+# 
+```
+
+### Actualizar
+```sql
+# Actualizar columnas de tabla
+alter table mitabla add nuevacol int;
+alter table mitabla drop column micol not null;
+alter table mitabla modify column micol varchar(250);
+
+# Actualizar registros
+update clientes set id=100 where id=1;
+```
+
+### Eliminar
+```sql
+# Eliminar una tabla
+drop table mitabla;
+
+# Eliminar todos los Registros
+truncate table mitabla;
+
+# Eliminar un registro
+delete from clientes where id=1;
+```
+### Tipos de dato
+```sql
+# TODO: ..
+```
+### Funciones
+```sql
+# TODO: ..
+```
+## Agrupaciones
+### Resumen
+```sql
+# TODO: ..
+```
+### Order by
+```sql
+# TODO: ..
+```
+### Group by
+```sql
+# TODO: ..
+```
+### Having
+```sql
+# TODO: ..
+```
+## Relaciones
+### Relación 1 a 1
+```sql
+# TODO: ..
+```
+### Relación 1 a Muchos
+```sql
+# TODO: ..
+```
+### Relación Muchos a Muchos
+```sql
+# TODO: ..
+```
+
+## Join
+### Left Join
+```sql
+# TODO: ..
+```
+### Right Join
+```sql
+# TODO: ..
+```
+### Inner Join
+```sql
+# TODO: ..
+```
+### Full Join
+```sql
+# TODO: ..
+```
+### Semi Left Join
+```sql
+# TODO: ..
+```
+### Semi Right Join
+```sql
+# TODO: ..
+```
+### Auto Join
+```sql
+# TODO: ..
+```
+
+## CTE
+```sql
+# TODO: ..
+```
+## Vistas
+```sql
+# Crear
+create view Vista_1 as 
+select*from cliente where fec_crea like '%13%';
+
+# Leer
+select * from Vista_1;
+
+# Eliminar
+drop view Vista_1;
+```
+## Triggers
+```sql
+# TODO: ..
+```
+## Procedimientos almacenados
+```sql
+# TODO: ..
+```

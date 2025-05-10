@@ -3,6 +3,16 @@
 ###
 
 ### Mysql
+* Las tablas dinámicas (que permiten creación y edición de filas) deben tener `fec_actu`, las que no (estáticas) solo tiene `fec_crea`.
+
+* 
+
+* 
+
+* 
+
+* 
+
 * Para actualizar un registro luego de hacer un `insert`, por ejemplo, usar trigger, pero lo mejor es hacerlo desde la aplicación:
 ```sql
 -- 1. Agregar la columna 'codigo' a la tabla 'negocios'
